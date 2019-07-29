@@ -1,0 +1,12 @@
+---
+# https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html
+#- name: Add mappings to /etc/hosts
+#  blockinfile:
+#    path: /etc/hosts
+#    block: |
+#      {{ item.ip }} {{ item.name }}
+#    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+#  with_items:
+#    - { name: host1, ip: 10.10.1.10 }
+#    - { name: host2, ip: 10.10.1.11 }
+#    - { name: host3, ip: 10.10.1.12 }

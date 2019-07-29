@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    image: "${MOLECULE_DISTRO:-debian:9}"
+    pull: yes
+    memory: 4096
+    cpu: 2
+    groups:
+     - proxmox
+
+provisioner:
+  name: ansible
+  log: true
+  inventory:
+    group_vars:
+      proxmox:
+        user: qwe
+        username: qwe
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

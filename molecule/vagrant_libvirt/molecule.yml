@@ -1,0 +1,27 @@
+---
+dependency:
+  name: galaxy
+driver:
+   name: vagrant
+   provider:
+    name: libvirt
+lint:
+  name: yamllint
+platforms:
+  - name: instance.proxmox.molecule
+    box: "${MOLECULE_DISTRO:-generic/debian9}"
+    # default vm is created with 500mb memory
+    # that's why I kept getting errors
+    # https://molecule.readthedocs.io/en/stable/configuration.html
+    memory: 4096
+    cpu: 2
+
+provisioner:
+  name: ansible
+  log: true
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
