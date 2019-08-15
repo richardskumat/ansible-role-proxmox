@@ -3,17 +3,15 @@
   apt:
    name: os-prober
    state: absent
-# update grub
-- name: Update-grub
-  command: update-grub
-  when: ansible_virtualization_type != "docker"
-# Disable pve enterprise repo
-- lineinfile:
-    path: /etc/apt/sources.list.d/pve-enterprise.list
-    regexp: '^deb'
-    line: '#deb https://enterprise.proxmox.com/debian {{ ansible_distribution_release }} pve-enterprise'
-  when: ansible_virtualization_type != "docker"
+  notify: update-grub
+
+- name: Remove PVE enterprise repo file
+  file:
+   path: /etc/apt/sources.list.d/pve-enterprise.list
+   state: absent
+  notify: update-grub
 
 - name: Update repositories cache without enterprise repo
   apt:
-    update_cache: yes
+   update_cache: yes
+  notify: update-grub

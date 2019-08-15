@@ -1,7 +1,5 @@
 ---
-# add apt repository
-# use ansible_distribution_release instead of hard-coding wheezy,jessie,stretch
-- name: Create apt src list file for Debian 10
+- name: Create apt src list file for D9
   template:
    src: pve-install-repo-stretch.j2
    dest: /etc/apt/sources.list.d/pve-install-repo.list
@@ -10,48 +8,21 @@
    mode: 0644
    backup: yes
 
-# this fails on deb 9, but works on deb 8 and 7?
-#- apt_repository:
-#    repo: deb [arch=amd64] http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
-#    state: present
-#    filename: pve-install-repo
-
-#- name: Copy over the proxmox apt key
-#  copy:
-#    src: files/proxmox-ve-release-5.x.asc
-#    dest: /tmp/proxmox-ve-release-5.x.asc
-#    owner: root
-#    mode: 0600
-
 - name: Add proxmox's apt key
   apt_key:
    url: 'http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg'
-   #https://github.com/ansible/ansible/issues/31691
-   #apt_key doesn't use apt proxy so fails on lan machines without direct internet access
-   #file: /tmp/proxmox-ve-release-5.x.asc
-   #id: 359E95965E2C3D643159CD300D9A1950E2EF0603
    state: present
 
-#- name: Trust Proxmox' packaging key
-#  apt_key:
-#    data: "{{ lookup('file', pve_release_key) }}"
-#    id: "{{ pve_release_key_id }}"
-#    state: present
+
 - name: Update repositories cache and run apt-get upgrade
   apt:
-    update_cache: yes
-    upgrade: dist
+   update_cache: yes
+   upgrade: dist
 
 - name: Install proxmox packages
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
+   name:
     - proxmox-ve
     - postfix
     - open-iscsi
-    # required for ansible, both on controller and remote hosts
-    #- python-proxmoxer
-    # dab for creating proxmox lxc template:
-    #- dab
   when: ansible_virtualization_type != "docker"

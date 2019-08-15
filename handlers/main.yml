@@ -1,1 +1,7 @@
 ---
+
+# update grub
+- name: Update-grub
+  command: update-grub
+  when: ansible_virtualization_type != "docker"
+  listen: update-grub

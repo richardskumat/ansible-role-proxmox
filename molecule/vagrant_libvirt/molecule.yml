@@ -2,14 +2,16 @@
 dependency:
   name: galaxy
 driver:
-   name: vagrant
-   provider:
+  name: vagrant
+  provider:
     name: libvirt
+  options:
+    config-file: molecule/vagrant_libvirt/yaml-lint.yml
 lint:
   name: yamllint
 platforms:
   - name: instance.proxmox.molecule
-    box: "${MOLECULE_DISTRO:-generic/debian9}"
+    box: "${MOLECULE_DISTRO:-debian/stretch64}"
     # default vm is created with 500mb memory
     # that's why I kept getting errors
     # https://molecule.readthedocs.io/en/stable/configuration.html
@@ -21,6 +23,8 @@ provisioner:
   log: true
   lint:
     name: ansible-lint
+scenario:
+  name: vagrant_libvirt
 verifier:
   name: testinfra
   lint:

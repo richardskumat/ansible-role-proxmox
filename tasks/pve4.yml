@@ -1,26 +1,23 @@
 ---
-# add apt repository
-# use ansible_distribution_release instead of hard-coding wheezy,jessie,stretch
-- apt_repository:
-    repo: deb [arch=amd64] http://download.proxmox.com/debian {{ ansible_distribution_release }} pve-no-subscription
-    state: present
-    filename: pve-install-repo
+- name: Add pve apt repo
+  apt_repository:
+   repo: deb [arch=amd64] http://download.proxmox.com/debian {{ ansible_distribution_release }} pve-no-subscription
+   state: present
+   filename: pve-install-repo
 
 - name: Add the Proxmox Apt signing key
   apt_key:
-    url: 'http://download.proxmox.com/debian/key.asc'
-    state: present
+   url: 'http://download.proxmox.com/debian/key.asc'
+   state: present
 
 - name: Update repositories cache and run apt-get upgrade
   apt:
-    update_cache: yes
-    upgrade: dist
+   update_cache: yes
+   upgrade: dist
 
 - name: Install proxmox packages
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
+   name:
     - proxmox-ve
     - ssh
     - postfix
@@ -28,4 +25,3 @@
     - open-iscsi
     - systemd-sysv
   when: ansible_virtualization_type != "docker"
-

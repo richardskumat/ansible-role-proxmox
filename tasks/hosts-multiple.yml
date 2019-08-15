@@ -1,6 +1,6 @@
 ---
 # https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html
-#- name: Add mappings to /etc/hosts
+# - name: Add mappings to /etc/hosts
 #  blockinfile:
 #    path: /etc/hosts
 #    block: |
