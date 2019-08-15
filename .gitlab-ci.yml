@@ -32,5 +32,4 @@ test_d9:
   variables:
     MOLECULE_DISTRO: "debian:9"
   script:
-    - molecule converge || true
-    - molecule test || true
+    - molecule test
