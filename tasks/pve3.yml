@@ -1,28 +1,28 @@
 ---
 - name: Add pve apt repo
-  apt_repository:
+  ansible.builtin.apt_repository:
    repo: deb [arch=amd64] http://download.proxmox.com/debian {{ ansible_distribution_release }} pve-no-subscription
    state: present
    filename: pve-install-repo
 
 - name: Add the Proxmox Apt signing key
-  apt_key:
+  ansible.builtin.apt_key:
    url: 'http://download.proxmox.com/debian/key.asc'
    state: present
 
 - name: Update repositories cache and run apt-get upgrade
-  apt:
+  ansible.builtin.apt:
    update_cache: yes
    upgrade: dist
 
 - name: Install the pve kernel
-  apt:
+  ansible.builtin.apt:
    name:
     - pve-firmware
     - pve-kernel-2.6.32-26-pve
 
 - name: Install proxmox packages
-  apt:
+  ansible.builtin.apt:
    name:
     - proxmox-ve-2.6.32
     - ntp

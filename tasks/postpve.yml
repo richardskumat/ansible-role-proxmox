@@ -1,17 +1,17 @@
 ---
 - name: Remove os-prober
-  apt:
+  ansible.builtin.apt:
    name: os-prober
    state: absent
-  notify: update-grub
+  notify: "Update-grub"
 
 - name: Remove PVE enterprise repo file
-  file:
+  ansible.builtin.file:
    path: /etc/apt/sources.list.d/pve-enterprise.list
    state: absent
-  notify: update-grub
+  notify: "Update-grub"
 
 - name: Update repositories cache without enterprise repo
-  apt:
+  ansible.builtin.apt:
    update_cache: yes
-  notify: update-grub
+  notify: "Update-grub"

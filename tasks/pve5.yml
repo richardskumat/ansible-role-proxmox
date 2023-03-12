@@ -1,6 +1,6 @@
 ---
 - name: Create apt src list file for D9
-  template:
+  ansible.builtin.template:
    src: pve-install-repo-stretch.j2
    dest: /etc/apt/sources.list.d/pve-install-repo.list
    owner: root
@@ -9,19 +9,19 @@
    backup: yes
 
 - name: Add proxmox's apt key
-  apt_key:
+  ansible.builtin.apt_key:
    url: 'http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg'
    id: 359E95965E2C3D643159CD300D9A1950E2EF0603
    state: present
 
 
 - name: Update repositories cache and run apt-get upgrade
-  apt:
+  ansible.builtin.apt:
    update_cache: yes
    upgrade: dist
 
 - name: Install proxmox packages
-  apt:
+  ansible.builtin.apt:
    name:
     - proxmox-ve
     - postfix
